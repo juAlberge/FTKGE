@@ -48,7 +48,8 @@ def prediction_scores(
 
     # Replace entity names by their idx
     target["col_to_embed"] = target["col_to_embed"].map(dict(data["ent2idx"])).astype(int)
-    
+    # Remove rows that are not in Yago
+    target = target[~target["col_to_embed"].isna()]
     X_emb = embeddings[target["col_to_embed"]]
     y = target["target"]
     model = HGBR()
